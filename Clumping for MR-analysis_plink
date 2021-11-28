@@ -1,0 +1,93 @@
+./plink2 --bfile /users/k1774211/CWP_GWAS_2020/MR_DATA_CLUMP/hapmap_CEU_r23a_filtered/hapmap_CEU_r23a_filtered  --clump-r2 0.01 --clump-kb 250 --clump AFB_ctg_vl.txt 
+
+
+  apps/plink/1.9.0b6.10
+
+
+
+
+
+#Due to split chromosome first pgen file needed to make
+
+./plink2 --bfile /users/k1774211/CWP_GWAS_2020/MR_DATA_CLUMP/hapmap_CEU_r23a/hapmap_CEU_r23a --make-pgen --sort-vars --out hapmap_CEU_r23a 
+
+# then pgen file to bed files: files created in this section were used for clumping 
+./plink2 --pfile hapmap_CEU_r23a --make-bed --out hapmap_CEU_r23a
+
+module add apps/plink/1.9.0b6.10
+
+# CWP study 
+plink \
+--bfile hapmap_CEU_r23a \
+--clump cwp_ins_e05 \
+--clump-field P \/Users/mdrahman/Downloads/MR_analysis_cwp_paper/bmi/CWP_to_BMI_MR/CWP_to_BMI/scatter_plot_cwp_to_bmi_outlierexcluded.pdf
+--clump-p1 1e-05 \
+--clump-p2 1e-05 \
+--clump-r2 0.1 \
+--clump-kb 500 \
+--out cwp_ins_1e05_clump     # 39 clumps formed
+###Final clumping performed on DTR using p <1E-04.
+
+
+
+##########################
+This part conducted in DRT 
+
+/trinity/home/rahmanms/softwares/plink_linux_x86_64/plink \
+--bfile /trinity/home/rahmanms/GWAS_CWP/CWP_clumping_forMRanalysis/hapmap_CEU_r23a_filtered \
+--clump /trinity/home/rahmanms/GWAS_CWP/CWP_clumping_forMRanalysis/all_sample_final_txt \
+--clump-field P \
+--clump-p1 1 \
+--clump-p2 1 \
+--clump-r2 0.001 \
+--clump-kb 10000 \
+--out /trinity/home/rahmanms/GWAS_CWP/CWP_clumping_forMRanalysis/cwp_ins_clump    
+####################################
+
+
+
+
+
+
+
+# AFB study 
+plink \
+--bfile hapmap_CEU_r23a \
+--clump AFB_1e05 \
+--clump-field P \
+--clump-p1 1e-05 \
+--clump-p2 1e-05 \
+--clump-r2 0.1 \
+--clump-kb 500 \
+--out afb_ins_1e05_clump     # 52 clump formed
+
+
+# MDD study 
+plink \
+--bfile hapmap_CEU_r23a \
+--clump mdd_ins_e05 \
+--clump-field P \
+--clump-p1 1e-05 \
+--clump-p2 1e-05 \
+--clump-r2 0.1 \
+--clump-kb 500 \
+--out mdd_ins_1e05_clump    # 67 clump formed 
+
+
+# years of schooling 
+plink \
+--bfile hapmap_CEU_r23a \
+--clump yr_school_1e05 \
+--clump-field P \
+--clump-p1 1e-05 \
+--clump-p2 1e-05 \
+--clump-r2 0.1 \
+--clump-kb 500 \
+--out school_ins_1e05_clump    # 59 clumps formed 
+
+
+# Example how clump SNPs were isolated:
+schooling <- fread("school_ins_1e05_clump.clumped")
+schooling <- schooling[,3]
+fwrite(schooling, file="schooling_clumped_snp_1e05.txt"
+
